@@ -5,33 +5,48 @@ import HomePage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shope/shope.component";
 import Header from "./components/header/header.component";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-sign-up.component";
-import { auth } from "./firebase/firebase.utils";
+import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 
-
-class  App extends React.Component {
-  constructor(){
+class App extends React.Component {
+  constructor() {
     super();
-    this.state={
-      currentUser:null
-    }
+    this.state = {
+      currentUser: null,
+    };
   }
-  componentDidMount(){
-    auth.onAuthStateChanged(user=>{
-      this.setState({ currentUser:user});
-      console.log(user)
-    })
+  unsubscribeFormAuth = null;
+  componentDidMount() {
+    this.unsubscribeFormAuth = auth.onAuthStateChanged(async (userAuth) => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+        userRef.onSnapshot((snapShot) => {
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data(),
+            },
+          });
+          console.log(this.state);
+        });
+      } else {
+        this.setState({ currentUser: userAuth });
+      }
+    });
   }
-  render(){
-  return (
-    <div>
-      <Header />
-      <Routes>
-        <Route path="/" Component={HomePage} />
-        <Route path="/shop" Component={ShopPage} />
-        <Route path="/signin" Component={SignInAndSignUpPage} />
-      </Routes>
-    </div>
-  );
+  componentWillUnmount() {
+    this.unsubscribeFormAuth();
+  }
+  render() {
+    return (
+      <div>
+        <Header currentUser={this.state.currentUser} />
+        <Routes>
+          <Route path="/" Component={HomePage} />
+          <Route path="/shop" Component={ShopPage} />
+          <Route path="/signin" Component={SignInAndSignUpPage} />
+        </Routes>
+      </div>
+    );
   }
 }
 
