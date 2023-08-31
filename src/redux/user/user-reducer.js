@@ -1,3 +1,4 @@
+import CartActionTypes from "../cart/cart.types";
 import { UserActionTypes } from "./user.type";
 
 const INITIAL_STATE = {
@@ -11,7 +12,6 @@ const userReducer = (state=INITIAL_STATE,action)=>{
             ...state,
             currentUser:action.payload
         }
-
         default:
             return state;
     }
