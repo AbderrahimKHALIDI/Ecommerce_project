@@ -1,4 +1,3 @@
-import CartActionTypes from "../cart/cart.types";
 import { UserActionTypes } from "./user.type";
 
 const INITIAL_STATE = {
