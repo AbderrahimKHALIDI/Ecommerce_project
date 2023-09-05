@@ -11,12 +11,19 @@ const CollectionPage = () => {
 
 const param = useParams()
 const collection = useSelector(selectCollection(param.collectionId));
-
+const {title , items} = collection
 console.log(collection)
   return (
     
     <div className="collection-page">
-      <h2>Collection Page </h2>
+      <h2 className="title">{title} </h2>
+      <div className="items">
+        {
+          items.map(item =>(
+            <CollectionItem key={item.id} item={item}/>
+          ))
+        }
+      </div>
     </div>
   );
 };
