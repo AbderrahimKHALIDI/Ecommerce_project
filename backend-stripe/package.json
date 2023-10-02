@@ -6,10 +6,11 @@
     "npm": "9.8.1"
   },
   "scripts": {
-  
-    "build": "npm i",
-    "dev": "node server.js"
-    
+    "client": "cd client && npm start",
+    "server": "nodemon server.js",
+    "build": "cd client && npm run build",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "start": "node server.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
