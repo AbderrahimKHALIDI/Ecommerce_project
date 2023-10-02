@@ -8,8 +8,11 @@ const StripeCheckoutButton = ({price})=>{
 const onToken = token =>{
   
   axios({
-    url:'payment',
+    url:'/.netlify/functions/api',
     method:'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     data:{
         amount:priceForStripe,
         token
