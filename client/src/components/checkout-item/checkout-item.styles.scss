@@ -1,4 +1,4 @@
-/* Style par défaut pour les grands écrans */
+
 .checkout-item {
   width: 100%;
   display: flex;
@@ -39,7 +39,7 @@
   }
 }
 
-/* Style spécifique pour les petits écrans (moins de 800px) */
+
 @media screen and (max-width: 800px) {
   .checkout-item {
     flex-direction: column;
